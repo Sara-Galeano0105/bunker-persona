@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generador de Personaje</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0d1117;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+    .ficha {
+  background-image: url('fondo.png');
+  background-size: cover;
+  padding-top: 100px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 80px;
+  border-radius: 1rem;
+  min-width: 230px;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  background-blend-mode: multiply;
+  background-color: rgba(0,0,0,0.5);
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background-color: #f9c52a;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1f6feb;
+    }
+
+    #generador, #resultado {
+      display: none;
+      margin-top: 2rem;
+    }
+
+    #resultado p {
+      font-size: 1.1rem;
+      margin: 0.4rem 0;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      p, #resultado p {
+        font-size: 1rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Pantalla de bienvenida -->
+  <div id="bienvenida">
+    <h1>Bienvenido al Búnker 🕹️</h1>
+    <p>Oprime el siguiente botón para generar tu personaje</p>
+    <button onclick="iniciar()">Entrar</button>
+  </div>
+
+  <!-- Generador oculto -->
+  <div id="generador">
+    
+    <div id="resultado"></div>
+    <button onclick="generar()">¡Generar personaje!</button>
+  </div>
+<script>
+  const profesiones = ["Mecanico", "Agente del FBI", "Agente de la CIA", "Agronomo", "Abogado", "Actor","Ginecologo","Arqueologo","Arquitecto","Astrologo","Astronauta","Banquero","Bibliotecario", "Barista", "Empresario","Biologo","Boxeador","Azafata","Cazador", "Contador", "Veterinario", "Maquillador", "Virologo", "Soldado","Geografo","Geologo","Camionero", "Detective", "DJ", "Periodismo", "Inmunologo","Ingeniero","Sicario","Payaso","Doctor","Cirujano", "Minero", "Atista", "Futbolista","Quimico","Fillosofo", "Fisico","Agricultor","Cientifico","Actor Porno","Policia", "Bombero", "Traductor","Politico", "Piloto","Tatuador"];
+  const edades = ["30 años", "22 años", "18 años", "50 años", "20 años", "99 años", "40 años","16 años", "35 años","67 años","25 años","19 años","102 años", "18 años" ];
+  const biologia = ["Hombre Gay", "Mujer Lesbiana", "Hombre Bi", "Mujer Bi", "Hombre", "Mujer", "Hombre", "Mujer","Hombre", "Mujer", "Hombre", "Mujer","Hermafrodita","Alien","Robot","Gato"];
+  const hobbies = ["Hongos y Omeopatia", "Programar", "Ajedrez", "Leer", "Cantar", "Cazar","Ufología", "Enología", "Cultivar Plantas", "Sexologia", "Brujeria","Elaboracion de cerveza", "Juegos de mesa","Cocinar", "Bucear", "Esgrima","Yoga", "Fitoterapia", "Dormir", "Manualidades"];
+  const equipajes = ["Pistola", "Dildos", "Oija", "Muñeca inflable","Muñeco vudu", "Semillas y enlatados", "Computador y telefono", "Libros", "Filtro de Agua", "Botiquin", "Gatitos", "Guitarra", "Semillas de Trigo", "Caja de Herramientas", "Alcohol", "Peliculas", "Caja de conservas", "Francotirador", "Juegos de Mesa", "Cuchillos"];
+  const salud = ["Perfectamente sana", "VIH", "Epilepsia", "Esteril", "Esquizofrenia","Gastritis","Leucemia", "Pie Plano", "Enanismo","Daltonismo", "Suicida","Sin brazo", "Sin piernas", "Asma", "Hipertensión", "Alergias","Sordo","Alcoholico", "Drogadicto", "Tuberculosis"];
+  const info = ["Peyraphobia - miedo a hablar en público", "Sobrevivió a tres intentos de asesinato", " Es vegetariano", 
+  " Tomó cursos de cocina", "Ailurofobia - miedo a los gatos","Es amigo cercano del presidente","Panofobia - miedo a todo",
+"Sabe 7 idiomas", "Homofobia","Diseñó este búnker", "Sabe de peluquería","Misofobia - miedo a la suciedad y los gérmenes", "Tomó cursos de psicología", "robo un banco", "genofobia- miedo al sexo", "Sabe disparar bien","No sabe leer","Psicopata", "Drogadicto", "Lacanofobia - miedo a las verduras",
+" Puede abrir cerraduras", "Necrofobia - miedo a los muertos","Sabes que tu búnker está ubicado cerca de un lago de agua dulce", "Agorafobia - miedo a los espacios abiertos", "Realmente no tuvo un chequeo medico ", "Sabes que tu búnker está en el bosque","Sufre de mareos","Claustrofobia - miedo a los espacios confinados",
+"Odia la música moderna", "androfobia, miedo a los hombres", "Ergofobia (miedo al trabajo/hacer cualquier acción)","es chismoso", " Realizó cursos de supervivencia", "sabe de primeros auxilio", "atrofobia - miedo a los médicos","Ablutofobia: Miedo a lavarse."];
+
+  function iniciar() {
+    document.getElementById("bienvenida").style.display = "none";
+    document.getElementById("generador").style.display = "block";
+  }
+
+  function generar() {
+    const p = elegir(profesiones);
+    const e = elegir(edades);
+    const b = elegir(biologia);
+    const h = elegir(hobbies);
+    const eq = elegir(equipajes);
+    const s = elegir(salud);
+    const i = elegir(info);
+
+    // RESULTADO
+
+    document.getElementById("resultado").style.display = "block";
+
+    document.getElementById("resultado").innerHTML = `
+    <div class="ficha">
+      <p><strong>Profesión:</strong> ${p}</p>
+      <p><strong>Biologia:</strong> ${b} ${e} </p>
+      <p><strong>Hobby:</strong> ${h}</p>
+      <p><strong>Equipaje:</strong> ${eq}</p>
+      <p><strong>Salud:</strong> ${s}</p>
+      <p><strong>Información adicional:</strong></p>
+      <p> ${i} </p>
+        </div>
+    `;
+  }
+
+  function elegir(lista) {
+    return lista[Math.floor(Math.random() * lista.length)];
+  }
+</script>
+
+
+</body>
+</html>
